@@ -20,6 +20,6 @@ DataBank *create_DB(int coils_num,int discrete_inputs_num,int inputs_regs_num,in
     return DB;
 }
 
-void Modify_DB(DataBank *DB, MBAP *mbap) {
+void Modify_DB(DataBank *DB) {
     // DataBank modification due to write request coming from a client
 }
