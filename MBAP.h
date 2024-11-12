@@ -23,23 +23,30 @@ typedef struct PDU {
 } PDU;
 
 // MBAP header 
-typedef struct ADU {
+typedef struct MBAP {
     uint16_t Transaction_ID; // 
     uint16_t Protocol_ID; // =0x00 Modbus protocol
     uint16_t length;    //
     uint8_t Unit_ID; // =0xFF
-    PDU *pdu;
 
+} MBAP;
+
+typedef struct ADU {
+    MBAP *mbap;     // Modbus application header
+    PDU *pdu;       // if need
 } ADU;
-
 
 /*  
     Notes:
-
+    |                         - MBAP -               |       - PDU -        |
+    =========================================================================
+    | Transaction ID| Protocol ID | Length | Unit ID | Fucntion code | Data |
+    =========================================================================
+    |                                - ADU -                                |
 */
 
 // functions
-ADU *create_ADU();
+
 
 
 #endif /* MBAP_HEADER_H_ */
