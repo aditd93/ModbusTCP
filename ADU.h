@@ -1,5 +1,5 @@
-#ifndef MBAP_H_
-#define MBAP_H_
+#ifndef ADU_H_
+#define ADU_H_
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -51,4 +51,4 @@ typedef struct ADU {
 
 
 
-#endif /* MBAP_HEADER_H_ */
+#endif /* ADU_HEADER_H_ */
