@@ -1,4 +1,4 @@
-#include "datbank.h"
+#include "databank.h"
 
 DataBank *create_DB(int coils_num,int discrete_inputs_num,int inputs_regs_num,int holding_regs_num) {
     DataBank *DB = (DataBank*)malloc(sizeof(DataBank));
