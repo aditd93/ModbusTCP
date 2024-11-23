@@ -1,14 +1,18 @@
-#ifndef ADU_H_
-#define ADU_H_
+#ifndef CLIENT_H_
+#define CLIENT_H_
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <sys/select.h>
+#include <netinet/in.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <sys/types.h>
-#include "../Client/Client.c"
+#include "../ADU.h"
+
 
 // Variables and Macros
 #define READ_COILS 0x01
@@ -19,29 +23,12 @@
 #define WRITE_SINGLE_HOLDING_REGISTER 0X06
 #define WRITE_MULTIPLE_COILS 0x0F
 #define Write_MULTIPLE_HOLDING_REGISTERS 0x10
-#define PROTOCOL_ID 0x00
-#define UNIT_ID 0xFF
 
-enum reg_type{COIL, DISCRETE, I_REG, H_REG};
-
-typedef struct PDU {
-    uint8_t function_code;
-    void* data;
-} PDU;
-
-// MBAP header 
-typedef struct MBAP {
-    uint16_t Transaction_ID; // 
-    uint16_t Protocol_ID; // =0x00 Modbus protocol
-    uint16_t length;    // Frame bytes counter: Unit_ID [1] + Function_code [1] + HIGH+LOW register start address [2] + number of registers to read/write [2]
-    uint8_t Unit_ID; // =0xFF
-
-} MBAP;
-
-typedef struct ADU {
-    MBAP *mbap;     // Modbus application header
-    PDU *pdu;       // if need
-} ADU;
+typedef struct Client {
+    char *Server_IP; // Modbus remote server IP address
+    int port;
+    int socket;
+} Client;
 
 /*  
     Notes:
@@ -60,9 +47,6 @@ typedef struct ADU {
 
 // functions
 
-// Server's header functions
-ADU *Indication();
-ADU *Response();
 
 // Client's header functions
     /*  Valid registers types are:
@@ -71,10 +55,5 @@ ADU *Response();
         2 - Input registers
         3 - Holding registers
     */
-ADU *Request(char mode, int reg_type, int start, int offset);
-ADU *Request_read(int reg_type, int start, int offset);
-ADU *Request_write(int reg_type, uint16_t start, uint16_t offset);
-ADU *Confirmation();
 
-
-#endif /* ADU_HEADER_H_ */
+#endif /* CLIENT_HEADER_H_ */
